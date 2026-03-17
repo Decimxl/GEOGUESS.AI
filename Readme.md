@@ -1,3 +1,3 @@
 # Hvad er GeoGuessr?
 
-Geoguessr er et browserspil, hvor man starter 
+Geoguessr er et browserspil, hvor man 
