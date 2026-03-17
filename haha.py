@@ -7,3 +7,9 @@ while true == True:
 while not true:
     print("I LOVE JONAS")
     break
+
+guess = "wrong"
+
+if guess == "wrong":
+    def get_hit():
+        HIT = True
