@@ -1,8 +1,14 @@
-# Hvad er GeoGuessr?
+# Hvad vil vi lave
+
+## Hvad er GeoGuessr?
 
 Geoguessr er et browserspil, hvor man bliver præsenteret med en tilfældig koordinat, hvori der eksisterer google streetview. Målet er at gætte tæt på lokationens koordinat.
 
 NMPZ er et filter, der fjerne muligheden for at zoome, køre og kigge rundt: No Move Pan Zoom. Man har altså kun et enkelt billede at gætte ud fra.
 
-# Hvad skal vores AI kunne?
+## Hvad skal vores AI kunne?
+
+Vores AI tager et screenshot af skærmen for lokationen. Billedet bliver analyseret af vores AI, der er trænet på data fra Plonkit.net. Den giver en procentvis sikkerhed for, hvilket land billedet er i og laver et gæt baseret på det. 
+
+Den vil eventuelt kunne trænes på data fra spil. 
 
