@@ -28,8 +28,8 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy*100:.2f}%")
 
 
-import pickle
+import pickle as p
 model_filename = 'Rick.pkl'
-pickle.dump(mlp, open(model_filename,'wb'))
+p.dump(mlp, open(model_filename,'wb'))
 
-pickle.dump(scaler, open('scaler.pkl','wb'))
+p.dump(scaler, open('scaler.pkl','wb'))
