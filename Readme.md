@@ -1,4 +1,6 @@
-# Hvad er GeoGuessr?
+# Hvad vil vi lave?
+
+## Hvad er GeoGuessr?
 
 Geoguessr er et browserspil, hvor man bliver præsenteret med en tilfældig koordinat, hvori der eksisterer google streetview. Målet er at gætte tæt på lokationens koordinat.
 
