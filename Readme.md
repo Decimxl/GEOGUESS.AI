@@ -11,4 +11,4 @@ Vores AI tager et screenshot af skærmen for lokationen. Billedet bliver analyse
 Den vil eventuelt kunne trænes på data fra spil. 
 
 # Hvordan vil vi lave det?
-vi vil starte med at lave et program der tager alle billeder fra "plonk it" som er en trænings hjemmeside til geoguesser og bruger billederne 
+vi vil starte med at lave et program der tager alle billeder fra "plonk it" som er en trænings hjemmeside til geoguesser og bruger billederne i et program der vil finde features fra billederne som fx. farve 
