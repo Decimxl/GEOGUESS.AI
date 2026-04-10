@@ -1,6 +1,5 @@
 # Tic Tac Toe Stockfish
 
-HOMOGAY
 
 ## Hvad er Tic Tac Toe?
 
