@@ -10,6 +10,7 @@ def setup():
     #laver en 3*3 matrix
     board = np.zeros((3, 3), dtype=int)
     print(board)
+    return board
 
 #vorse variabler vi bruger til at spile
 winner = 0
@@ -95,3 +96,6 @@ while running:
     #hvis der ikke er nogle vinder så forsætter den bare med at køre programet
     """if winner == 0:
         play()"""
+
+def get_state(board):
+
