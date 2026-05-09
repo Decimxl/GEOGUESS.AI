@@ -9,47 +9,35 @@ class DecisionChainEnv(gym.Env):
         super().__init__()
 
         self.observation_space = spaces.Box(
-            board_pos_00=0,
-            board_pos_01=0,
-            board_pos_02=0,
-            board_pos_10=0,
-            board_pos_11=0,
-            board_pos_12=0,
-            board_pos_20=0,
-            board_pos_21=0,
-            board_pos_22=0,
-            dtype=np.int8
+            low=-1.0,
+            high=1.0,
+            shape=(9,),
+            dtype=np.float32
         )
-        
         self.action_space = spaces.Discrete(3)
 
         self.max_steps = 9
         self.step_count = 0
+        self.state = np.zeros(self.observation_space.shape, dtype=self.observation_space.dtype)
 
     def reset(self, seed=None, options=None):
         self.step_count = 0
-
-        self.state = np.random.uniform(0,0,0,0,0,0,0,0,0)
-
+        self.state = np.zeros(self.observation_space.shape, dtype=self.observation_space.dtype)
         return self.state, {}
 
     def step(self, action):
-
         self.step_count += 1
 
-        # Update state (example rule)
-        self.state = self.state + (action - 1) * 0.1
+        self.state = np.clip(
+            self.state + (int(action) - 1) * 0.1,
+            self.observation_space.low,
+            self.observation_space.high
+        )
 
         done = self.step_count >= self.max_steps
-
-        reward = 0
-
-        if done:
-            reward = self.evaluate_chain()
+        reward = float(self.evaluate_chain()) if done else 0.0
 
         return self.state, reward, done, False, {}
 
     def evaluate_chain(self):
-
-        # reward logic (example)
         return float(np.sum(self.state))
