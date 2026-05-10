@@ -14,8 +14,9 @@ vi træner en AI, med 9 inputs(en til være plads på bordet), ved at få den ti
 
 ## Hvilke bilioteker mm. vil vi bruge?
 
-Gymnasium som api til træningen
-Numpy til bearbejdning af lister mm.
-Random til generering af tilfældige værdier. Vi bruger random til at sætte start spilleren tilfældig.
-Pickle til at gemme vores trænede AI
-Time og Math til at give ETA på træningen
+- Gymnasium som api til træningen
+- Numpy til bearbejdning af lister mm.
+- Random til generering af tilfældige værdier. Vi bruger random til at sætte start spilleren tilfældig.
+- Pickle til at gemme vores trænede AI
+- Time og Math til at give ETA på træningen
+- copy til at kopierer AIen så den nogle gange spiller mod sig selv.
