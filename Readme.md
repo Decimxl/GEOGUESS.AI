@@ -16,3 +16,4 @@ vi træner en AI, med 9 inputs(en til være plads på bordet), ved at få den ti
 
 Gymnasium som api til træningen
 Numpy til bearbejdning af lister mm.
+Random til generering af tilfældige værdier. Vi bruger random til at sætte start spilleren tilfældig.
