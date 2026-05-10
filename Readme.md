@@ -24,3 +24,4 @@ Vi kan derimod bruge multiprocessing og køre det samme program på flere kerner
 - Pickle til at gemme vores trænede AI
 - Time og Math til at give ETA på træningen
 - copy til at kopierer AIen så den nogle gange spiller mod sig selv.
+- Pygame til visualisering af brættet
