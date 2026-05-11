@@ -11,6 +11,7 @@ def setup():
     #laver en 3*3 matrix
     board = np.zeros((3, 3), dtype=int)
     print(board)
+    
     return board
 
 #vorse variabler vi bruger til at spile
@@ -30,11 +31,11 @@ player2_color_red = (189,0,0) #BD0000
  
 setup()
 
-def play():
+def game(play):
     global player, win1 , win2, winner
 
     #spilers input
-    play = input(f"player {player} a move row:col")
+    #play = input(f"player {player} a move row:col")
 
     #spliter input til row og columes
     #hvis ikke inputet er gyldig så siger den at inputet er udgyldig
@@ -122,22 +123,6 @@ def grafiks():
         #hæver l med 1 for at skift til den næste linje
         l += 1
 
-def colision():
-    global mus_pos
-
-    mus_x ,mus_y = mus_pos
-
-    for item in colision_box_list:
-        pos1,pos2 = item.split(":")
-        x1,y1 = pos1.split(",")
-        x2,y2 = pos2.split(",")
-
-
-
-    print(mus_x)
-    print(mus_y)
-
-
 def make_colision():
     global colision_box_list
 
@@ -156,10 +141,66 @@ def make_colision():
             y2 = int((d + 1) * 133 + offset)
 
             
-            colision_box_list.append(f"{x1},{y1}:{x2},{y2}")
+            colision_box_list.append(f"{x1},{y1}:{x2},{y2}:{b},{d}")
             b += 1
         d += 1
         b = 0
+
+
+def colision():
+    global mus_pos, play, need_redraw
+
+    mus_x ,mus_y = mus_pos
+
+    for item in colision_box_list:
+        pos1,pos2,place = item.split(":")
+        x1, y1 = map(int, pos1.split(","))
+        x2, y2 = map(int, pos2.split(","))
+        x_place, y_place = map(int, place.split(","))
+
+
+        if mus_x >= x1 and mus_x <= x2 and mus_y >= y1 and mus_y <= y2:
+            play = (f"{y_place}:{x_place}")
+            game(play)
+            need_redraw = True
+
+def draw_winner():
+    global winner, player, board, need_redraw
+
+    font = pygame.font.SysFont(None, 60)
+    if winner == "draw":
+        text = font.render("Draw!", True, (255, 255, 255))
+    else:
+        text = font.render(f"Player {winner} wins!", True, (255, 255, 255))
+
+    screen.blit(text, (250 - text.get_width() // 2, 220))
+
+    hint = pygame.font.SysFont(None, 30).render("Click to play again", True, (200, 200, 200))
+    screen.blit(hint, (250 - hint.get_width() // 2, 290))
+
+def reset():
+    global winner, player, board, need_redraw
+    board = np.zeros((3, 3), dtype=int)
+    winner = 0
+    player = 1
+    need_redraw = True
+
+def draw_board():
+
+    offset = 50
+
+
+    for row in range(3):
+        for col in range(3):
+            value = board[row, col]
+            x_center = int(col * 133 + offset + (133/2))
+            y_center = int(row * 133 + offset + (133/2))
+            if value == 1:
+                size = 50
+                pygame.draw.line(screen, player1_color_blue, (x_center - size, y_center - size), (x_center + size, y_center + size), 10)
+                pygame.draw.line(screen, player1_color_blue, (x_center + size, y_center - size), (x_center - size, y_center + size), 10)
+            elif value == 2:
+                pygame.draw.circle(screen,player2_color_red,(x_center,y_center),50,8)
 
 
 
@@ -177,9 +218,12 @@ while running:
 
         # Håndter mussen
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mus_pos = pygame.mouse.get_pos()
-            need_redraw = True
-            colision()
+            if winner != 0:
+                reset()
+            else:
+                mus_pos = pygame.mouse.get_pos()
+                need_redraw = True
+                colision()
         
         #håndter keydown (alså tastertur tryk)
         if event.type == pygame.KEYDOWN:
@@ -193,6 +237,9 @@ while running:
 
     if need_redraw:
         grafiks()
+        draw_board()
+        if winner != 0:
+            draw_winner()
         pygame.display.flip()
         need_redraw = False
 
