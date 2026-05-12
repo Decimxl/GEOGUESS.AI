@@ -31,7 +31,7 @@ player2_color_red = (189,0,0) #BD0000
  
 setup()
 
-def game(play):
+def game(play):# play er two int ("x:y") dette er sådan det skal formateres
     global player, win1 , win2, winner
 
     #spilers input
@@ -40,7 +40,7 @@ def game(play):
     #spliter input til row og columes
     #hvis ikke inputet er gyldig så siger den at inputet er udgyldig
     try:
-        row,col = map(int, play.split(":"))
+        col,row = map(int, play.split(":"))
     except ValueError:
         print("invalid input")
         return
@@ -160,7 +160,7 @@ def colision():
 
 
         if mus_x >= x1 and mus_x <= x2 and mus_y >= y1 and mus_y <= y2:
-            play = (f"{y_place}:{x_place}")
+            play = (f"{x_place}:{y_place}")
             game(play)
             need_redraw = True
 
