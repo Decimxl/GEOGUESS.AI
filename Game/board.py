@@ -1,4 +1,5 @@
 import sys
+import os
 import numpy as np
 import pygame
 
@@ -32,7 +33,7 @@ player2_color_red = (189,0,0) #BD0000
 setup()
 
 def game(play):# play er two int ("x:y") dette er sådan det skal formateres
-    global player, win1 , win2, winner
+    global player, win1 , win2, winner, need_redraw, ai, ai_enabled, ai_player
 
     #spilers input
     #play = input(f"player {player} a move row:col")
@@ -85,6 +86,46 @@ def game(play):# play er two int ("x:y") dette er sådan det skal formateres
             player = 2
         elif player == 2:
             player = 1
+
+        # checker om det er AI's tur og om den er aktiveret
+        try:
+            if 'ai_enabled' in globals() and ai_enabled and ai is not None and ai_player is not None and player == ai_player and winner == 0:
+                # AIen vælger en handling
+                action = ai.choose_action(board, training=False)
+                ai_row = action // 3
+                ai_col = action % 3
+
+                if board[ai_row, ai_col] == 0:
+                    board[ai_row, ai_col] = player
+                    need_redraw = True
+
+                    #tjekker om AI'en har vundet efter dens træk
+                    i = 0
+                    while i != 3:
+                        if np.all(board[i,:] == player):
+                            print (f"player {player} win")
+                            winner = player
+                        if np.all(board[:,i] == player):
+                            print (f"player {player} win")
+                            winner = player
+                        if np.all(np.diag(board) == player):
+                            print(f"player {player} win")
+                            winner = player
+                        if np.all(np.diag(np.fliplr(board)) == player):
+                            print(f"player {player} win")
+                            winner = player
+                        i += 1 
+
+                    if np.all(board != 0):
+                        winner = "draw"
+
+                    #skifter tilbage til den anden spiller
+                    if player == 1:
+                        player = 2
+                    elif player == 2:
+                        player = 1
+        except Exception as e:
+            print('AI move failed:', e)
 
  
     print(board)
@@ -205,6 +246,30 @@ def draw_board():
 
 
 make_colision()
+
+#klargør AIen
+agent_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "AI Training", "Reinforced learnign"))
+if agent_dir not in sys.path:
+    sys.path.insert(0, agent_dir)
+try:
+    from agent import QLearningAgent
+    ai_enabled = True
+    ai_model_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "AI.pkl"))
+
+    if os.path.exists(ai_model_path):
+        ai = QLearningAgent.load(ai_model_path)
+        ai.epsilon = 0
+        print("Loaded AI model for GUI play.")
+    else:
+        ai = QLearningAgent("GUI AI")
+        ai.epsilon = 0
+        print("No saved AI found; using untrained AI.")
+    ai_player = 2
+except Exception as e:
+    print("AI import failed:", e)
+    ai_enabled = False
+    ai = None
+    ai_player = None
 
 #dette er vorse main game loop
 running = True
